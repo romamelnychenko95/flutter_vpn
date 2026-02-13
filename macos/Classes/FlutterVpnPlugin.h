@@ -1,4 +1,4 @@
-#import <Flutter/Flutter.h>
+#import <FlutterMacOS/FlutterMacOS.h>
 
 @interface FlutterVpnPlugin : NSObject<FlutterPlugin>
 @end

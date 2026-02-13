@@ -15,8 +15,8 @@ Flutter plugin to access vpn service on macOS using NetworkExtension.
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   
-  # Змінено платформу на macOS. 10.11 - це стандартний мінімум для VPN API
-  s.platform = :osx, '10.11'
+  # Змінено платформу на macOS. 12.0 - це стандартний мінімум для VPN API
+  s.platform = :osx, '12.0'
 
   # Для macOS використовується FlutterMacOS замість Flutter
   s.dependency 'FlutterMacOS'
