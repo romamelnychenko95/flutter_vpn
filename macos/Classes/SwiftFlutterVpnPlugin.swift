@@ -17,7 +17,11 @@ import Flutter
 #elseif os(macOS)
 import FlutterMacOS
 #endif
+#if os(iOS)
 import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
 
 @available(iOS 9.0, *)
 public class SwiftFlutterVpnPlugin: NSObject, FlutterPlugin {
