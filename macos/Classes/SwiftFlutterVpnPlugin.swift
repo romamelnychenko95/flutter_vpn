@@ -12,7 +12,11 @@
  * Lesser General Public License for more details.
  */
 
+#if os(iOS)
 import Flutter
+#elseif os(macOS)
+import FlutterMacOS
+#endif
 import UIKit
 
 @available(iOS 9.0, *)
