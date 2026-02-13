@@ -26,9 +26,16 @@ import AppKit
 @available(iOS 9.0, *)
 public class SwiftFlutterVpnPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "flutter_vpn", binaryMessenger: registrar.messenger())
-    let stateChannel = FlutterEventChannel(name: "flutter_vpn_states", binaryMessenger: registrar.messenger())
+    // Замініть рядки створення каналів на такі:
+    #if os(iOS)
+        let messenger = registrar.messenger()
+    #else
+        let messenger = registrar.messenger
+    #endif
 
+    let channel = FlutterMethodChannel(name: "flutter_vpn", binaryMessenger: messenger)
+    let stateChannel = FlutterEventChannel(name: "flutter_vpn_states", binaryMessenger: messenger)
+    
     let instance = SwiftFlutterVpnPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
     stateChannel.setStreamHandler((VPNStateHandler() as! FlutterStreamHandler & NSObjectProtocol))
