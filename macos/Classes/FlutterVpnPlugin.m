@@ -1,3 +1,9 @@
+#if TARGET_OS_OSX
+#import <FlutterMacOS/FlutterMacOS.h>
+#else
+#import <Flutter/Flutter.h>
+#endif
+
 #import "FlutterVpnPlugin.h"
 #if __has_include(<flutter_vpn/flutter_vpn-Swift.h>)
 #import <flutter_vpn/flutter_vpn-Swift.h>
