@@ -51,7 +51,8 @@ public class SwiftFlutterVpnPlugin: NSObject, FlutterPlugin {
           username: args["Username"]! as String,
           password: args["Password"]! as String,
           secret: args["Secret"] as? String,
-          description: args["Name"] as? String
+          description: args["Name"] as? String,
+          accessGroup: args["AccessGroup"] as? String
         )
       } else if call.method == "reconnect" {
         VpnService.shared.reconnect(result: result)

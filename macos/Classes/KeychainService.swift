@@ -27,7 +27,7 @@ class KeychainService: NSObject {
         self.serviceName = serviceName
     }
 
-    func save(key: String, value: String) {
+    func save(key: String, value: String, accessGroup: String?) {
         let keyData: Data = key.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue), allowLossyConversion: false)!
         let valueData: Data = value.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue), allowLossyConversion: false)!
 
@@ -35,8 +35,11 @@ class KeychainService: NSObject {
         keychainQuery[kSecClassValue] = kSecClassGenericPasswordValue
         keychainQuery[kSecAttrGenericValue] = keyData
         keychainQuery[kSecAttrAccountValue] = keyData
-        keychainQuery[kSecAttrServiceValue] = self.serviceName
+        keychainQuery[kSecAttrServiceValue] = "\(self.serviceName)\(key)"
         keychainQuery[kSecAttrAccessibleValue] = kSecAttrAccessibleAfterFirstUnlock
+        
+        keychainQuery[kSecAttrAccessGroup as String] = accessGroup
+        
         keychainQuery[kSecValueDataValue] = valueData
 
         // Delete any existing items
@@ -44,16 +47,18 @@ class KeychainService: NSObject {
         SecItemAdd(keychainQuery as CFDictionary, nil)
     }
 
-    func load(key: String) -> Data? {
+    func load(key: String, accessGroup: String?) -> Data? {
         let keyData: Data = key.data(using: String.Encoding(rawValue: String.Encoding.utf8.rawValue), allowLossyConversion: false)!
         let keychainQuery = NSMutableDictionary()
         keychainQuery[kSecClassValue] = kSecClassGenericPasswordValue
         keychainQuery[kSecAttrGenericValue] = keyData
         keychainQuery[kSecAttrAccountValue] = keyData
-        keychainQuery[kSecAttrServiceValue] = self.serviceName
+        keychainQuery[kSecAttrServiceValue] =  "\(self.serviceName)\(key)"
         keychainQuery[kSecAttrAccessibleValue] = kSecAttrAccessibleAfterFirstUnlock
         keychainQuery[kSecMatchLimitValue] = kSecMatchLimitOne
         keychainQuery[kSecReturnPersistentRefValue] = kCFBooleanTrue
+        
+        keychainQuery[kSecAttrAccessGroup as String] = accessGroup
 
         var result: AnyObject?
         let status = SecItemCopyMatching(keychainQuery as CFDictionary, &result)

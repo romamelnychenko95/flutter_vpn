@@ -68,7 +68,8 @@ class VpnService {
         username: String,
         password: String,
         secret: String?,
-        description: String?
+        description: String?,
+        accessGroup: String?
     ) {
         vpnManager.loadFromPreferences { (error) -> Void in
             guard error == nil else {
@@ -80,20 +81,20 @@ class VpnService {
 
             let passwordKey = "vpn_\(type)_password"
             let secretKey = "vpn_\(type)_secret"
-            self.kcs.save(key: passwordKey, value: password)
+            self.kcs.save(key: passwordKey, value: password, accessGroup: accessGroup)
             if let secret = secret {
-                self.kcs.save(key: secretKey, value: secret)
+                self.kcs.save(key: secretKey, value: secret, accessGroup: accessGroup)
             }
 
             if (type == "IPSec") {
                 let p = NEVPNProtocolIPSec()
                 p.serverAddress = server
                 p.username = username
-                p.passwordReference = self.kcs.load(key: passwordKey)
+                p.passwordReference = self.kcs.load(key: passwordKey, accessGroup: accessGroup)
 
                 p.authenticationMethod = NEVPNIKEAuthenticationMethod.sharedSecret
                 if secret != nil {
-                    p.sharedSecretReference = self.kcs.load(key: secretKey)
+                    p.sharedSecretReference = self.kcs.load(key: secretKey, accessGroup: accessGroup)
                 }
 
                 p.localIdentifier = ""
