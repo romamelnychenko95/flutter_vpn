@@ -109,7 +109,7 @@ class VpnService {
                 p.remoteIdentifier = server
                 p.serverAddress = server
 
-                p.passwordReference = self.kcs.load(key: passwordKey)
+                p.passwordReference = self.kcs.load(key: passwordKey, accessGroup: accessGroup)
                 p.authenticationMethod = NEVPNIKEAuthenticationMethod.none
 
                 p.useExtendedAuthentication = true
